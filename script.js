@@ -1,79 +1,80 @@
-// 1. Navigation Logic
+// Navigation & Modals
 function showPage(pageId) {
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
     document.getElementById(pageId).style.display = 'block';
 }
 
-// 2. Budget Tool Logic
-function calculateBudget() {
-    const income = document.getElementById('calc-income').value;
-    const expense = document.getElementById('calc-expense').value;
+function openModal(id) { document.getElementById(id).style.display = "block"; }
+function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+// Advanced Budget Advisor (50/30/20 Rule)
+function calculateAdvancedBudget() {
+    const income = parseFloat(document.getElementById('calc-income').value);
     const result = document.getElementById('calc-result');
     
-    if (income && expense) {
-        const remaining = income - expense;
-        result.innerHTML = remaining >= 0 
-            ? `<p style="color:green">Great! You have $${remaining} left to save.</p>` 
-            : `<p style="color:red">Warning: You are overspending by $${Math.abs(remaining)}!</p>`;
-    }
-}
-
-// 3. Quiz Logic
-function checkQuiz(isCorrect) {
-    const feedback = document.getElementById('quiz-feedback');
-    feedback.innerText = isCorrect ? "Correct! Needs are essential for survival." : "Not quite. Remember, wants are optional luxuries.";
-    feedback.style.color = isCorrect ? "green" : "red";
-}
-
-// 4. Game Logic: Life on Allowance
-let cash = 20;
-let savings = 0;
-let week = 1;
-
-function playTurn(choice) {
-    if (week > 4) return;
-
-    let eventMsg = "";
-    // Random Event (25% chance)
-    if (Math.random() > 0.75) {
-        const events = [
-            { text: "Unexpected birthday gift! +$10", amt: 10 },
-            { text: "Lost your water bottle. Buy new one: -$5", amt: -5 }
-        ];
-        const evt = events[Math.floor(Math.random() * events.length)];
-        cash += evt.amt;
-        eventMsg = `<br><strong>Event:</strong> ${evt.text}`;
+    if (isNaN(income) || income <= 0) {
+        result.innerHTML = "Please enter a valid amount.";
+        return;
     }
 
-    if (choice === 'save') {
-        savings += 10;
-        cash -= 10;
-        document.getElementById('game-message').innerHTML = "Smart move! You put $10 into your savings account." + eventMsg;
+    const needs = (income * 0.5).toFixed(2);
+    const wants = (income * 0.3).toFixed(2);
+    const savings = (income * 0.2).toFixed(2);
+
+    result.innerHTML = `
+        <h3>Your Personalized Plan:</h3>
+        <ul>
+            <li><strong>Essentials (50%):</strong> $${needs} (Food, Transport, School)</li>
+            <li><strong>Wants (30%):</strong> $${wants} (Movies, Snacks, Games)</li>
+            <li><strong>Savings/Invest (20%):</strong> $${savings} (Future Wealth)</li>
+        </ul>
+        <p><em>Pro Tip: If you save that $${savings} every month with 7% interest, you'll be a millionaire in your 50s!</em></p>
+    `;
+}
+
+// Enhanced Quiz
+const quizData = [
+    { q: "What is 'Compound Interest'?", a: ["Interest on the principal only", "Interest on principal plus accumulated interest", "A type of bank fee"], correct: 1 },
+    { q: "What is an Asset?", a: ["Something that puts money IN your pocket", "Something that takes money OUT", "A debt you owe"], correct: 0 },
+    { q: "What does 'Inflation' do to your money?", a: ["Increases its value", "Decreases its purchasing power", "Makes it stay the same"], correct: 1 },
+    { q: "What is a 'Stock'?", a: ["A type of loan to the government", "Partial ownership in a company", "A guaranteed way to get rich"], correct: 1 }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function loadQuiz() {
+    const q = quizData[currentQ];
+    document.getElementById('quiz-question').innerText = q.q;
+    const optionsDiv = document.getElementById('quiz-options');
+    optionsDiv.innerHTML = "";
+    q.a.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(i);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(idx) {
+    if (idx === quizData[currentQ].correct) {
+        score++;
+        document.getElementById('quiz-feedback').innerText = "Correct! 🎉";
     } else {
-        cash -= 10;
-        document.getElementById('game-message').innerHTML = "You bought a treat! It was fun, but your savings didn't grow." + eventMsg;
+        document.getElementById('quiz-feedback').innerText = "Wrong! Keep learning! 📚";
     }
-
-    week++;
-    if (week <= 4) {
-        cash += 20; // Weekly allowance
-        updateGameUI();
-    } else {
-        endGame();
+    currentQ++;
+    if (currentQ < quizData[currentQ - 1] ? quizData.length : 0) { // Safety check
+        setTimeout(() => {
+            document.getElementById('quiz-feedback').innerText = "";
+            if (currentQ < quizData.length) loadQuiz();
+            else document.getElementById('quiz-container').innerHTML = `<h3>Quiz Over! Your score: ${score}/${quizData.length}</h3>`;
+        }, 1500);
     }
+    document.getElementById('quiz-score-display').innerText = `Score: ${score}`;
 }
 
-function updateGameUI() {
-    document.getElementById('game-week').innerText = week;
-    document.getElementById('game-savings').innerText = savings;
-    document.getElementById('game-cash').innerText = cash;
-}
-
-function endGame() {
-    const success = savings >= 40;
-    document.getElementById('game-options').innerHTML = `<button onclick="location.reload()">Restart Game</button>`;
-    document.getElementById('game-message').innerHTML = success 
-        ? "<strong>You Won!</strong> You reached your goal. Lesson: Consistent saving beats impulse buying." 
-        : "<strong>Game Over.</strong> You didn't save enough. Lesson: Small spends add up quickly!";
-}
+// Initialize
+window.onload = () => {
+    loadQuiz();
+};
