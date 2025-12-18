@@ -3,89 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinSmart: Financial Literacy for Students</title>
+    <title>FinSmart Pro: Financial Literacy</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <nav>
-        <div class="logo">FinSmart</div>
+        <div class="logo">FinSmart Pro</div>
         <ul>
             <li><a href="#" onclick="showPage('home')">Home</a></li>
             <li><a href="#" onclick="showPage('learn')">Learn</a></li>
-            <li><a href="#" onclick="showPage('tools')">Budget Tool</a></li>
-            <li><a href="#" onclick="showPage('game')">The Game</a></li>
-            <li><a href="#" onclick="showPage('quiz')">Quiz</a></li>
-            <li><a href="#" onclick="showPage('about')">About</a></li>
+            <li><a href="#" onclick="showPage('tools')">Budget Advisor</a></li>
+            <li><a href="#" onclick="showPage('game')">Game</a></li>
+            <li><a href="#" onclick="showPage('quiz')">Mastery Quiz</a></li>
         </ul>
     </nav>
 
     <main id="content">
         <section id="home" class="page">
             <h1>Take Control of Your Future</h1>
-            <p>Financial literacy isn't just about math; it's about <strong>freedom</strong>. Understanding how money works now means you'll have more choices later in life.</p>
+            <p>Click a category below to dive deep into your financial education.</p>
             <div class="feature-grid">
-                <div class="card"><h3>Budgeting</h3><p>Learn to track where every dollar goes.</p></div>
-                <div class="card"><h3>Saving</h3><p>Build a safety net for your dreams.</p></div>
-                <div class="card"><h3>Investing</h3><p>Make your money work for you.</p></div>
+                <div class="card clickable" onclick="openModal('budget-modal')">
+                    <div class="icon">📊</div>
+                    <h3>Budgeting</h3>
+                    <p>Learn to track every dollar.</p>
+                </div>
+                <div class="card clickable" onclick="openModal('saving-modal')">
+                    <div class="icon">🐷</div>
+                    <h3>Saving</h3>
+                    <p>The secret to wealth.</p>
+                </div>
+                <div class="card clickable" onclick="openModal('investing-modal')">
+                    <div class="icon">📈</div>
+                    <h3>Investing</h3>
+                    <p>Make your money grow.</p>
+                </div>
             </div>
         </section>
 
         <section id="learn" class="page" style="display:none;">
-            <h2>Financial Basics</h2>
+            <h2>Financial Mastery Library</h2>
             <div class="lesson">
-                <h3>Needs vs. Wants</h3>
-                <p>A <strong>Need</strong> is something you must have to survive (food, shelter). A <strong>Want</strong> is something that makes life fun but isn't essential (video games, designer shoes).</p>
+                <h3>Inflation 101</h3>
+                <p>Inflation is why a candy bar cost $0.05 in 1950 and $2.00 today. It’s the decrease in the purchasing power of money.</p>
             </div>
             <div class="lesson">
-                <h3>The 50/30/20 Rule</h3>
-                <p>Try putting 50% toward needs, 30% toward wants, and 20% toward savings!</p>
+                <h3>Compound Interest</h3>
+                <p>Einstein called this the 8th wonder of the world. It’s interest on your interest!</p>
+            </div>
+            <div class="resource-links">
+                <h3>External Resources</h3>
+                <ul>
+                    <li><a href="https://www.khanacademy.org/college-careers-more/personal-finance" target="_blank">Khan Academy Personal Finance</a></li>
+                    <li><a href="https://www.investopedia.com" target="_blank">Investopedia (The Money Encyclopedia)</a></li>
+                </ul>
             </div>
         </section>
 
         <section id="tools" class="page" style="display:none;">
-            <h2>Monthly Budget Calculator</h2>
+            <h2>AI Budget Advisor</h2>
+            <p>Enter your monthly allowance/income, and we will calculate your ideal spending plan using the <strong>50/30/20 Rule</strong>.</p>
             <div class="calculator">
                 <label>Monthly Allowance ($):</label>
-                <input type="number" id="calc-income" placeholder="e.g. 50">
-                <label>Total Expenses ($):</label>
-                <input type="number" id="calc-expense" placeholder="e.g. 30">
-                <button onclick="calculateBudget()">Calculate</button>
-                <div id="calc-result"></div>
-            </div>
-        </section>
-
-        <section id="game" class="page" style="display:none;">
-            <h2>Life on Allowance</h2>
-            <div id="game-container">
-                <div class="game-stats">
-                    <span>Week: <span id="game-week">1</span>/4</span>
-                    <span>Savings: $<span id="game-savings">0</span></span>
-                    <span>Cash: $<span id="game-cash">20</span></span>
-                </div>
-                <div id="game-message">Welcome! Your goal is to save $50 in 4 weeks.</div>
-                <div id="game-options">
-                    <button onclick="playTurn('save')">Save Cash ($10)</button>
-                    <button onclick="playTurn('spend')">Buy Treat ($10)</button>
-                </div>
+                <input type="number" id="calc-income" placeholder="e.g. 100">
+                <button onclick="calculateAdvancedBudget()">Get My Plan</button>
+                <div id="calc-result" class="result-box"></div>
             </div>
         </section>
 
         <section id="quiz" class="page" style="display:none;">
-            <h2>Test Your Knowledge</h2>
+            <h2>Financial Mastery Quiz</h2>
             <div id="quiz-container">
-                <p id="quiz-question">What is an example of a "Need"?</p>
-                <button onclick="checkQuiz(true)">Basic Groceries</button>
-                <button onclick="checkQuiz(false)">Movie Tickets</button>
+                <p id="quiz-question">Loading question...</p>
+                <div id="quiz-options"></div>
+                <p id="quiz-score-display">Score: 0</p>
                 <div id="quiz-feedback"></div>
             </div>
         </section>
 
-        <section id="about" class="page" style="display:none;">
-            <h2>About FinSmart</h2>
-            <p>This is a student-led project dedicated to making money management simple and accessible for everyone.</p>
-        </section>
-    </main>
+        <div id="budget-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('budget-modal')">&times;</span>
+                <h2>Mastering Budgeting</h2>
+                <p>Budgeting is telling your money where to go instead of wondering where it went.</p>
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/sVKPBEatLIs" frameborder="0" allowfullscreen></iframe>
+                <button onclick="closeModal('budget-modal')">Got it!</button>
+            </div>
+        </div>
+
+        <div id="saving-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('saving-modal')">&times;</span>
+                <h2>The Power of Saving</h2>
+                <p>Try the "Pay Yourself First" method: Save 20% of any money you get BEFORE you start spending.</p>
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/unWp96vRe-E" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div id="investing-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('investing-modal')">&times;</span>
+                <h2>Investing: Growing Wealth</h2>
+                <p>Investing involves buying assets (like stocks or real estate) that increase in value over time.</p>
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/f5j9v9dfinQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        </main>
 
     <script src="script.js"></script>
 </body>
