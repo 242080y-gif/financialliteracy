@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSmart: Financial Literacy for Students</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">FinSmart</div>
+        <ul>
+            <li><a href="#" onclick="showPage('home')">Home</a></li>
+            <li><a href="#" onclick="showPage('learn')">Learn</a></li>
+            <li><a href="#" onclick="showPage('tools')">Budget Tool</a></li>
+            <li><a href="#" onclick="showPage('game')">The Game</a></li>
+            <li><a href="#" onclick="showPage('quiz')">Quiz</a></li>
+            <li><a href="#" onclick="showPage('about')">About</a></li>
+        </ul>
+    </nav>
+
+    <main id="content">
+        <section id="home" class="page">
+            <h1>Take Control of Your Future</h1>
+            <p>Financial literacy isn't just about math; it's about <strong>freedom</strong>. Understanding how money works now means you'll have more choices later in life.</p>
+            <div class="feature-grid">
+                <div class="card"><h3>Budgeting</h3><p>Learn to track where every dollar goes.</p></div>
+                <div class="card"><h3>Saving</h3><p>Build a safety net for your dreams.</p></div>
+                <div class="card"><h3>Investing</h3><p>Make your money work for you.</p></div>
+            </div>
+        </section>
+
+        <section id="learn" class="page" style="display:none;">
+            <h2>Financial Basics</h2>
+            <div class="lesson">
+                <h3>Needs vs. Wants</h3>
+                <p>A <strong>Need</strong> is something you must have to survive (food, shelter). A <strong>Want</strong> is something that makes life fun but isn't essential (video games, designer shoes).</p>
+            </div>
+            <div class="lesson">
+                <h3>The 50/30/20 Rule</h3>
+                <p>Try putting 50% toward needs, 30% toward wants, and 20% toward savings!</p>
+            </div>
+        </section>
+
+        <section id="tools" class="page" style="display:none;">
+            <h2>Monthly Budget Calculator</h2>
+            <div class="calculator">
+                <label>Monthly Allowance ($):</label>
+                <input type="number" id="calc-income" placeholder="e.g. 50">
+                <label>Total Expenses ($):</label>
+                <input type="number" id="calc-expense" placeholder="e.g. 30">
+                <button onclick="calculateBudget()">Calculate</button>
+                <div id="calc-result"></div>
+            </div>
+        </section>
+
+        <section id="game" class="page" style="display:none;">
+            <h2>Life on Allowance</h2>
+            <div id="game-container">
+                <div class="game-stats">
+                    <span>Week: <span id="game-week">1</span>/4</span>
+                    <span>Savings: $<span id="game-savings">0</span></span>
+                    <span>Cash: $<span id="game-cash">20</span></span>
+                </div>
+                <div id="game-message">Welcome! Your goal is to save $50 in 4 weeks.</div>
+                <div id="game-options">
+                    <button onclick="playTurn('save')">Save Cash ($10)</button>
+                    <button onclick="playTurn('spend')">Buy Treat ($10)</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="page" style="display:none;">
+            <h2>Test Your Knowledge</h2>
+            <div id="quiz-container">
+                <p id="quiz-question">What is an example of a "Need"?</p>
+                <button onclick="checkQuiz(true)">Basic Groceries</button>
+                <button onclick="checkQuiz(false)">Movie Tickets</button>
+                <div id="quiz-feedback"></div>
+            </div>
+        </section>
+
+        <section id="about" class="page" style="display:none;">
+            <h2>About FinSmart</h2>
+            <p>This is a student-led project dedicated to making money management simple and accessible for everyone.</p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
